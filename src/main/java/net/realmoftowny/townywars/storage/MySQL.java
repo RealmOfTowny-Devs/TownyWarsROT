@@ -1,31 +1,15 @@
 package net.realmoftowny.townywars.storage;
 
-import org.bukkit.*;
+import net.realmoftowny.townywars.TownyWars;
+import net.realmoftowny.townywars.utils.ChatUtils;
+
 import java.sql.*;
 
 public class MySQL
 {
     public static Connection con;
-    private String host;
-    private String port;
-    private String database;
-    private String username;
-    private String password;
-    private Boolean useSSL;
     
     public MySQL() {
-        this.host = "127.0.0.1";
-        this.port = "3306";
-        this.database = "MinevoltGems";
-        this.username = "root";
-        this.password = "example";
-        this.useSSL = false;
-        this.host = MinevoltGems.getInstance().getConfigInstance().host;
-        this.port = MinevoltGems.getInstance().getConfigInstance().port;
-        this.database = MinevoltGems.getInstance().getConfigInstance().database;
-        this.username = MinevoltGems.getInstance().getConfigInstance().username;
-        this.password = MinevoltGems.getInstance().getConfigInstance().password;
-        this.useSSL = MinevoltGems.getInstance().getConfigInstance().useSSL;
     }
     
     public boolean isConnected() {
@@ -35,12 +19,12 @@ public class MySQL
     public void connect() {
         if (!this.isConnected()) {
             try {
-                final String connection = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database + "?autoReconnect=true&useSSL=" + this.useSSL.toString().toLowerCase();
-                MySQL.con = DriverManager.getConnection(connection, this.username, this.password);
-                Bukkit.getConsoleSender().sendMessage(GemsCommandExecutor.getColoredMessage(MinevoltGems.getInstance().getConfigInstance().pr + " &ahas successfully connected to MySQL Database!"));
+                final String connection = "jdbc:mysql://" + TownyWars.getInstance().getConfigManager().getHost() + ":" + TownyWars.getInstance().getConfigManager().getPort() + "/" + TownyWars.getInstance().getConfigManager().getDatabase() + "?autoReconnect=true&useSSL=" + Boolean.valueOf(TownyWars.getInstance().getConfigManager().isUseSSL()).toString().toLowerCase();
+                MySQL.con = DriverManager.getConnection(connection, TownyWars.getInstance().getConfigManager().getUsername(), TownyWars.getInstance().getConfigManager().getPassword());
+                ChatUtils.sendColoredLog(TownyWars.getInstance().getConfigManager().getPluginPrefix() + " &ahas successfully connected to MySQL Database!");
             }
             catch (SQLException e) {
-                Bukkit.getConsoleSender().sendMessage(GemsCommandExecutor.getColoredMessage(MinevoltGems.getInstance().getConfigInstance().pr + " &c cannot connect to MySQL Database..."));
+                ChatUtils.sendColoredLog(TownyWars.getInstance().getConfigManager().getPluginPrefix() + " &c cannot connect to MySQL Database...");
             }
         }
     }
@@ -48,10 +32,10 @@ public class MySQL
     public void disconnect() {
         try {
             MySQL.con.close();
-            Bukkit.getConsoleSender().sendMessage(GemsCommandExecutor.getColoredMessage(MinevoltGems.getInstance().getConfigInstance().pr + " &ahas successfully disconnected from MySQL Database!"));
+            ChatUtils.sendColoredLog(TownyWars.getInstance().getConfigManager().getPluginPrefix() + " &ahas successfully disconnected from MySQL Database!");
         }
         catch (SQLException e) {
-            Bukkit.getConsoleSender().sendMessage(GemsCommandExecutor.getColoredMessage(MinevoltGems.getInstance().getConfigInstance().pr + " &ccould not disconnect from MySQL Database..."));
+            ChatUtils.sendColoredLog(TownyWars.getInstance().getConfigManager().getPluginPrefix() + " &ccould not disconnect from MySQL Database...");
         }
     }
     
@@ -81,4 +65,16 @@ public class MySQL
         }
         return null;
     }
+    
+    public static void createTable()
+    {
+      try
+      {
+        PreparedStatement ps = TownyWars.getInstance().getMySQL().getStatement("CREATE TABLE IF NOT EXISTS " + TownyWars.getInstance().getConfigManager().getTable() + " (playername VARCHAR(100), UUID VARCHAR(100), Gems INT(100))");
+        ps.executeUpdate();
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
+    }
+
 }

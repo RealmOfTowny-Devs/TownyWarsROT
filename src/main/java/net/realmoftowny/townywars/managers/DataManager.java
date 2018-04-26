@@ -1,6 +1,9 @@
 package net.realmoftowny.townywars.managers;
 
 import org.bukkit.entity.*;
+
+import net.realmoftowny.townywars.TownyWars;
+
 import java.sql.*;
 import java.util.*;
 import org.bukkit.*;
@@ -9,7 +12,7 @@ public class DataManager
 {
     public static void createTable() {
         try {
-            final PreparedStatement ps = MinevoltGems.getInstance().getMySQL().getStatement("CREATE TABLE IF NOT EXISTS " + MinevoltGems.getInstance().getConfigInstance().table + " (playername VARCHAR(100), UUID VARCHAR(100), Gems INT(100))");
+            final PreparedStatement ps = TownyWars.getInstance().getMySQL().getStatement("CREATE TABLE IF NOT EXISTS " + MinevoltGems.getInstance().getConfigInstance().table + " (playername VARCHAR(100), UUID VARCHAR(100), Gems INT(100))");
             ps.executeUpdate();
         }
         catch (Exception ex) {
