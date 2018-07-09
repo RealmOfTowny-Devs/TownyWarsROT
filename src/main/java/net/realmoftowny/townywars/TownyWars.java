@@ -1,13 +1,11 @@
 package net.realmoftowny.townywars;
 
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import net.realmoftowny.townywars.managers.ConfigManager;
 import net.realmoftowny.townywars.storage.MySQL;
 import net.realmoftowny.townywars.storage.YMLFile;
 import net.realmoftowny.townywars.tasks.FileSaveTask;
 import net.realmoftowny.townywars.utils.ChatUtils;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class TownyWars extends JavaPlugin
 {
@@ -16,6 +14,7 @@ public class TownyWars extends JavaPlugin
 	private MySQL sql;
 	private YMLFile file;
 
+	public static float pPlayer = 2f, pPlot = 1f, pKill = 1f, pMayorKill = 3f, pKingKill = 10f;
 	
 	@Override
 	public void onEnable()
@@ -34,7 +33,7 @@ public class TownyWars extends JavaPlugin
 	    case MYSQL: 
 	    	this.sql = new MySQL();
 	    	this.sql.connect();
-	    	GemsAPI.createTable();
+	    	///GemsAPI.createTable();
 	    	ChatUtils.sendColoredLog(this.configManager.getPluginPrefix() + " &aStorageMethod: &eMySQL");
 	    	ChatUtils.sendColoredLog(this.configManager.getPluginPrefix() + " &bMySQL Successfully Connected");
 	      	break;

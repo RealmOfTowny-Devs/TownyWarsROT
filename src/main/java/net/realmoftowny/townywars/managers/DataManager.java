@@ -1,12 +1,13 @@
 package net.realmoftowny.townywars.managers;
 
-import org.bukkit.entity.*;
-
 import net.realmoftowny.townywars.TownyWars;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
-import java.sql.*;
-import java.util.*;
-import org.bukkit.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.UUID;
 
 public class DataManager
 {

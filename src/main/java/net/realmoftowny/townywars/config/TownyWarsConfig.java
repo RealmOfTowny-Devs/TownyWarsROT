@@ -1,14 +1,12 @@
 package net.realmoftowny.townywars.config;
 
-import java.io.File;
-import java.util.HashMap;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import net.realmoftowny.townywars.TownyWars;
 import net.realmoftowny.townywars.objects.MySQLConnectionInfo;
 import net.realmoftowny.townywars.objects.StorageMethod;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
 
 public class TownyWarsConfig
 {

@@ -1,21 +1,17 @@
 package net.realmoftowny.townywars.objects;
 
+import com.palmergames.bukkit.towny.exceptions.*;
+import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.Town;
+import com.palmergames.bukkit.towny.object.TownyUniverse;
+import net.realmoftowny.townywars.managers.WarManager;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+
 import java.util.ArrayList;
 import java.util.List;
 
 //import main.java.com.danielrharris.townywars.War.MutableInteger;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-
-import com.palmergames.bukkit.towny.exceptions.AlreadyRegisteredException;
-import com.palmergames.bukkit.towny.exceptions.EconomyException;
-import com.palmergames.bukkit.towny.exceptions.EmptyNationException;
-import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
-import com.palmergames.bukkit.towny.exceptions.TownyException;
-import com.palmergames.bukkit.towny.object.Nation;
-import com.palmergames.bukkit.towny.object.Town;
-import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 //Author: Noxer
 public class Rebellion {

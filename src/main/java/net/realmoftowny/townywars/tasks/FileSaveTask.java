@@ -1,8 +1,7 @@
 package net.realmoftowny.townywars.tasks;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
 import net.realmoftowny.townywars.TownyWars;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class FileSaveTask extends BukkitRunnable{
 
