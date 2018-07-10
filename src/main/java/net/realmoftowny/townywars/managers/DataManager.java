@@ -1,5 +1,7 @@
 package net.realmoftowny.townywars.managers;
 
+import me.drkmatr1984.MinevoltGems.GemsConfig;
+import me.drkmatr1984.MinevoltGems.MinevoltGems;
 import net.realmoftowny.townywars.TownyWars;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -264,7 +266,7 @@ public class DataManager
     
     public static UUID getUUIDfromPlayerName(final String playerName) {
         final OfflinePlayer op = Bukkit.getOfflinePlayer(playerName);
-        if (!op.equals(null)) {
+        if (op != null) {
             return op.getUniqueId();
         }
         return null;

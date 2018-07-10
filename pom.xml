@@ -15,6 +15,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>drkmatr1984-repo</id>
+            <url>http://minevolt.net/repo/</url>
+        </repository>
     </repositories>
 
     <properties>
@@ -50,6 +54,12 @@
             <version>0.6</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Questioner.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>me.drkmatr1984</groupId>
+            <artifactId>MinevoltGems</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

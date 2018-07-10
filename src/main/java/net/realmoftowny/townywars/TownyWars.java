@@ -1,5 +1,6 @@
 package net.realmoftowny.townywars;
 
+import me.drkmatr1984.MinevoltGems.GemsAPI;
 import net.realmoftowny.townywars.managers.ConfigManager;
 import net.realmoftowny.townywars.storage.MySQL;
 import net.realmoftowny.townywars.storage.YMLFile;
@@ -33,7 +34,7 @@ public class TownyWars extends JavaPlugin
 	    case MYSQL: 
 	    	this.sql = new MySQL();
 	    	this.sql.connect();
-	    	///GemsAPI.createTable();
+	    	GemsAPI.createTable();
 	    	ChatUtils.sendColoredLog(this.configManager.getPluginPrefix() + " &aStorageMethod: &eMySQL");
 	    	ChatUtils.sendColoredLog(this.configManager.getPluginPrefix() + " &bMySQL Successfully Connected");
 	      	break;
