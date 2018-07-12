@@ -11,8 +11,6 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-//import main.java.com.danielrharris.townywars.War.MutableInteger;
-
 //Author: Noxer
 public class Rebellion {
 

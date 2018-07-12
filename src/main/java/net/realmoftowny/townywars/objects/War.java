@@ -19,7 +19,7 @@ public class War {
 	
 	private Nation nation1, nation2;
 	private int nation1points, nation2points;
-	private Map<Town, MutableInteger> towns = new HashMap<Town, MutableInteger>();
+	private Map<Town, Integer> towns = new HashMap<>();
 	
 	private Rebellion rebelwar;
 	
@@ -64,7 +64,7 @@ public class War {
 		for(String temp : slist.get(4).split("  ")){
 			temp2 = temp.split(" ");
 			try {
-				towns.put(TownyUniverse.getDataSource().getTown(temp2[0]), new MutableInteger(Integer.parseInt(temp2[1])));
+				towns.put(TownyUniverse.getDataSource().getTown(temp2[0]), Integer.parseInt(temp2[1]));
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -100,7 +100,7 @@ public class War {
 		
 		for(Town town : towns.keySet()){
 			s += town.getName() + " ";
-			s += towns.get(town).value + "  ";
+			s += towns.get(town) + "  ";
 		}
 		
 		if(rebelwar != null)
@@ -143,7 +143,7 @@ public class War {
 	}
 
 	public Integer getTownPoints(Town town) throws Exception {
-		return towns.get(town).value;
+		return towns.get(town);
 	}
 
 	//rewrite
@@ -153,12 +153,12 @@ public class War {
 		else if(nat.equals(nation2))
 			nation2points = nat.getNumTowns();
 		for (Town town : nat.getTowns()) {
-			towns.put(town, new MutableInteger((int) getTownMaxPoints(town)));
+			towns.put(town, (int) getTownMaxPoints(town));
 		}
 	}
 	
 	public void addNewTown(Town town){
-		towns.put(town, new MutableInteger((int) getTownMaxPoints(town)));
+		towns.put(town, (int) getTownMaxPoints(town));
 	}
 	
 	public static double getTownMaxPoints(Town town){
@@ -182,8 +182,8 @@ public class War {
 	}
 
 	public void chargeTownPoints(Nation nnation, Town town, double i) {
-		towns.get(town).value -= i;
-		if (towns.get(town).value <= 0) {
+		towns.replace(town, towns.get(town) - (int) i);
+		if (towns.get(town) <= 0) {
 			try {
 				if(nnation.getTowns().size() > 1 && nnation.getCapital() == town){
 					if(nnation.getTowns().get(0) != town){
@@ -275,9 +275,9 @@ public class War {
 		if(nation2 == nation)
 			nation2points++;
 		towns.put(town,
-				new MutableInteger((int) (town.getNumResidents()
+				(int) (town.getNumResidents()
 						* TownyWars.pPlayer + TownyWars.pPlot
-						* town.getTownBlocks().size())));
+						* town.getTownBlocks().size()));
 	}
 
 	public static void broadcast(Nation n, String message) {

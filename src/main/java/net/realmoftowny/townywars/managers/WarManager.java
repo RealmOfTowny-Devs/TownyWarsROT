@@ -14,7 +14,7 @@ public class WarManager {
     }
 
     public static void save() {
-        // TODO finish
+
     }
 
     public static void endWar(Nation winner, Nation looser, boolean b) {
