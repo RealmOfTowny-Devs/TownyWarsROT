@@ -44,14 +44,12 @@ public class War {
 		try {
 			nation1 = TownyUniverse.getDataSource().getNation(slist.get(0));
 		} catch (NotRegisteredException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
 			nation2 = TownyUniverse.getDataSource().getNation(slist.get(1));
 		} catch (NotRegisteredException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -59,17 +57,15 @@ public class War {
 		
 		nation2points = Integer.parseInt(slist.get(3));
 		
-		String temp2[] = {"",""};
+		String temp2[];
 		
 		for(String temp : slist.get(4).split("  ")){
 			temp2 = temp.split(" ");
 			try {
 				towns.put(TownyUniverse.getDataSource().getTown(temp2[0]), Integer.parseInt(temp2[1]));
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (NotRegisteredException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -80,7 +76,6 @@ public class War {
 			try {
 				rebelwar = Rebellion.getRebellionFromName(slist.get(5));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
@@ -195,7 +190,7 @@ public class War {
 					
 					
 				towns.remove(town);
-				Nation nation = WarManager.getWarForNation(nnation).getEnemy(nnation);
+				Nation nation = this.getEnemy(nnation);
 				removeNationPoint(nnation);
 				addNationPoint(nation, town);
 				try {	
@@ -210,7 +205,6 @@ public class War {
 				try {
 					WarManager.save();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				broadcast(
@@ -250,14 +244,12 @@ public class War {
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
 			WarManager.save();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
