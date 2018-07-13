@@ -1,11 +1,17 @@
 package net.realmoftowny.townywars;
 
 import me.drkmatr1984.MinevoltGems.GemsAPI;
+import net.realmoftowny.townywars.events.TownyWarsEvents;
 import net.realmoftowny.townywars.managers.ConfigManager;
 import net.realmoftowny.townywars.storage.MySQL;
 import net.realmoftowny.townywars.storage.YMLFile;
 import net.realmoftowny.townywars.tasks.FileSaveTask;
 import net.realmoftowny.townywars.utils.ChatUtils;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TownyWars extends JavaPlugin
@@ -48,6 +54,9 @@ public class TownyWars extends JavaPlugin
 	     	ChatUtils.sendColoredLog(this.configManager.getPluginPrefix() + " &bInterval: &e" + this.configManager.getSaveInterval());
 	    }
 
+	    PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(new TownyWarsEvents(), this);
+
 	}
 	
 	@Override
@@ -55,8 +64,20 @@ public class TownyWars extends JavaPlugin
 	{
 		
 	}
-	
-	public MySQL getMySQL() {
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	    if (command.getAliases().contains("tw")) {
+	        if (sender instanceof Player) {
+
+            } else if (sender instanceof ConsoleCommandSender) {
+
+            }
+        }
+        return super.onCommand(sender, command, label, args);
+    }
+
+    public MySQL getMySQL() {
 		return this.sql;	
 	}
 	

@@ -38,6 +38,6 @@ public class WarManager {
     }
 
     public static void createWar(Nation rebelNation, Nation motherNation, CommandSender cs, Rebellion rebellion) {
-        wars.add(new War(motherNation, rebelNation, rebellion));
+        wars.add(new War(motherNation, rebelNation));
     }
 }

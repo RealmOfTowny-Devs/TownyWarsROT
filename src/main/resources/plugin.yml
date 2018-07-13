@@ -1,11 +1,9 @@
 name: TownyWars
-version: 1.1.5
-authors: [DanielRHarris]
-main: com.danielrharris.townywars.TownyWars
+version: 0.1
+authors: [VoxelBuster,drkmatr1984,MikeST,TimeLord,caarson]
+main: net.realmoftowny.townywars.TownyWars
 depend: [Towny]
 commands:
   twar:
-    usage: No permission!
-  twar neutral:
-    permission: townywars.neutral
-    usage: Syntax error! Perhaps you meant /twar neutral [nation]
+    permission: townywars.help
+    aliases: [tw, twars, townywars]

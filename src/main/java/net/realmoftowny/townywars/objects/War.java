@@ -10,6 +10,8 @@ import net.realmoftowny.townywars.managers.WarManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -17,29 +19,23 @@ import java.util.logging.Logger;
 
 public class War {
 	
-	private Nation nation1, nation2;
+	protected Nation nation1, nation2;
 	private int nation1points, nation2points;
 	private Map<Town, Integer> towns = new HashMap<>();
 	
-	private Rebellion rebelwar;
-	
-	public War(Nation nat, Nation onat, Rebellion rebellion) {
+	public War(Nation nat, Nation onat) {
 		nation1 = nat;
 		nation2 = onat;
 		recalculatePoints(nat);
 		recalculatePoints(onat);
-		this.rebelwar = rebellion;
-	}
-	
-	public War(Nation nat, Nation onat) {
-		this(nat, onat, null);
 	}
 	
 	public War(String s){
 		ArrayList<String> slist = new ArrayList<String>();
 		
-		for(String temp : s.split("   "))
+		for(String temp : s.split("   ")) {
 			slist.add(temp);
+		}
 		
 		try {
 			nation1 = TownyUniverse.getDataSource().getNation(slist.get(0));
@@ -69,48 +65,44 @@ public class War {
 				e.printStackTrace();
 			}
 		}
-		
-		if(slist.get(5).equals("n u l l"))
-			rebelwar = null;
-		else
-			try {
-				rebelwar = Rebellion.getRebellionFromName(slist.get(5));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 	}
 
-	public Rebellion getRebellion() {
-		return this.rebelwar;
-	}
+    public War() {
+	    TownyWars.getInstance().getLogger().warning("Empty War object created! Nations must be set with setters or the plugin will error!");
+    }
 
-	//tripple space separates objects, double space separates list elements, single space separates map pairs
-	public String objectToString(){
-		String s = new String("");
-		
-		s += nation1.getName() + "   ";
-		s += nation2.getName() + "   ";
-		s += nation1points + "   ";
-		s += nation2points + "   ";
+    /**
+     * Converts object to JSON data string.
+     * @return json
+     */
+	public String toString(){
+        JSONObject root = new JSONObject();
+
+        root.put("nation1", nation1.getName());
+        root.put("nation2", nation2.getName());
+
+        root.put("n1points", nation1points);
+        root.put("n2points", nation2points);
+
+        JSONArray townArray = new JSONArray();
 		
 		for(Town town : towns.keySet()){
-			s += town.getName() + " ";
-			s += towns.get(town) + "  ";
+			JSONObject townJson = new JSONObject();
+			townJson.put("name", town.getName());
+			townJson.put("maxPoints", towns.get(town));
+			townArray.add(townJson);
 		}
+
+		root.put("towns", townArray);
 		
-		if(rebelwar != null)
-			s += " " + rebelwar.getName();
-		else
-			s += " " + "n u l l";
-		
-		return s;
+		return root.toJSONString();
 	}
 
-	public void setNation1(Nation nation1) {
+	public void setDefender(Nation nation1) {
 		this.nation1 = nation1;
 	}
 
-	public void setNation2(Nation nation2) {
+	public void setBelligerent(Nation nation2) {
 		this.nation2 = nation2;
 	}
 	
@@ -120,8 +112,16 @@ public class War {
 		s.add(nation2);
 		return s;
 	}
-	
-	public void removeTown(Town town, Nation nation){
+
+	protected void setNation1points(int p) {
+	    nation1points = p;
+    }
+
+    protected void setNation2points(int p) {
+        this.nation2points = p;
+    }
+
+    public void removeTown(Town town, Nation nation){
 		towns.remove(town);
 		if(nation == nation1)
 			nation1points--;
