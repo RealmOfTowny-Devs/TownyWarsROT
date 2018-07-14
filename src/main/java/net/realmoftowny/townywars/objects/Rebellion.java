@@ -37,38 +37,28 @@ public class Rebellion extends War {
     //create new rebellion from savefile string
     public Rebellion(String s) {
         super(s);
-        ArrayList<String> slist = new ArrayList<String>();
-
-        for (String temp : s.split("  "))
-            slist.add(temp);
-
-        name = slist.get(2);
 
         try {
-            leader = TownyUniverse.getDataSource().getTown(slist.get(3));
-        } catch (NotRegisteredException e) {
+            JSONObject root = (JSONObject) new JSONParser().parse(s);
 
+            name = (String) root.get("name");
+            leader = TownyUniverse.getDataSource().getTown((String) root.get("rebelLeader"));
+
+            JSONArray originalTownsArray = (JSONArray) root.get("originalTowns");
+            for (Object o : originalTownsArray) {
+                originalMotherTowns.add(TownyUniverse.getDataSource().getTown((String) ((JSONObject) o).get("name")));
+            }
+
+            JSONArray rebelTowns = (JSONArray) root.get("rebelTowns");
+            for (Object o : originalTownsArray) {
+                rebels.add(TownyUniverse.getDataSource().getTown((String) ((JSONObject) o).get("name")));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (NotRegisteredException e) {
             e.printStackTrace();
         }
-        if (!slist.get(4).equals("e m p t y")) {
-            for (String temp : slist.get(4).split(" "))
-                try {
-                    originalMotherTowns.add(TownyUniverse.getDataSource().getTown(temp));
-                } catch (NotRegisteredException e) {
 
-                    e.printStackTrace();
-                }
-        }
-
-        if (!slist.get(5).equals("e m p t y")) {
-            for (String temp : slist.get(5).split(" "))
-                try {
-                    rebels.add(TownyUniverse.getDataSource().getTown(temp));
-                } catch (NotRegisteredException e) {
-
-                    e.printStackTrace();
-                }
-        }
         allRebellions.add(this);
     }
 
@@ -123,7 +113,7 @@ public class Rebellion extends War {
                 } catch (NotRegisteredException e) {
                     e.printStackTrace();
                 } catch (EmptyNationException e) {
-                    e.printStackTrace();
+
                 }
                 nation2.addTown(town);
                 TownyUniverse.getDataSource().saveTown(town);
@@ -174,7 +164,7 @@ public class Rebellion extends War {
             } catch (NotRegisteredException e) {
                 e.printStackTrace();
             } catch (EmptyNationException e) {
-                ;
+
             }
         }
 
@@ -185,7 +175,6 @@ public class Rebellion extends War {
                 e.printStackTrace();
             } catch (EmptyNationException e) {
                 //exception WILL be created. Ignore.
-                ;
             }
         }
 

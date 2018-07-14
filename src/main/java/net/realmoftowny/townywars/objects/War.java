@@ -12,8 +12,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,39 +36,24 @@ public class War {
 	}
 	
 	public War(String s){
-		ArrayList<String> slist = new ArrayList<String>();
-		
-		for(String temp : s.split("   ")) {
-			slist.add(temp);
-		}
-		
 		try {
-			nation1 = TownyUniverse.getDataSource().getNation(slist.get(0));
+			JSONObject root = (JSONObject) new JSONParser().parse(s);
+
+			nation1 = TownyUniverse.getDataSource().getNation((String) root.get("nation1"));
+			nation2 = TownyUniverse.getDataSource().getNation((String) root.get("nation2"));
+
+            nation1points = Integer.parseInt((String) root.get("n1points"));
+            nation2points = Integer.parseInt((String) root.get("n2points"));
+
+            JSONArray townsArray = (JSONArray) root.get("towns");
+
+            for (Object o : townsArray) {
+                towns.put(TownyUniverse.getDataSource().getTown((String) ((JSONObject) o).get("name")), Integer.parseInt((String) ((JSONObject) o).get("maxPoints")));
+            }
+		} catch (ParseException e) {
+			e.printStackTrace();
 		} catch (NotRegisteredException e) {
 			e.printStackTrace();
-		}
-		
-		try {
-			nation2 = TownyUniverse.getDataSource().getNation(slist.get(1));
-		} catch (NotRegisteredException e) {
-			e.printStackTrace();
-		}
-		
-		nation1points = Integer.parseInt(slist.get(2));
-		
-		nation2points = Integer.parseInt(slist.get(3));
-		
-		String temp2[];
-		
-		for(String temp : slist.get(4).split("  ")){
-			temp2 = temp.split(" ");
-			try {
-				towns.put(TownyUniverse.getDataSource().getTown(temp2[0]), Integer.parseInt(temp2[1]));
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			} catch (NotRegisteredException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
