@@ -132,7 +132,7 @@ public class Rebellion extends War {
             e.printStackTrace();
         }
 
-        WarManager.createWar(nation2, nation1, cs, this);
+        WarManager.createWar(nation2, nation1);
         TownyUniverse.getDataSource().saveTown(leader);
         TownyUniverse.getDataSource().saveNation(nation2);
         TownyUniverse.getDataSource().saveNationList();

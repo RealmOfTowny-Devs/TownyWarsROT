@@ -2,8 +2,8 @@ package net.realmoftowny.townywars.managers;
 
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Town;
-import net.realmoftowny.townywars.objects.Rebellion;
 import net.realmoftowny.townywars.objects.War;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -37,7 +37,17 @@ public class WarManager {
         return activeWars.toArray(new War[0]);
     }
 
-    public static void createWar(Nation rebelNation, Nation motherNation, CommandSender cs, Rebellion rebellion) {
+    public static void createWar(Nation rebelNation, Nation motherNation, CommandSender cs) {
+        for (War w : getWarsForNation(rebelNation)) {
+            if (w.equals(new War(motherNation, rebelNation))) {
+                cs.sendMessage(ChatColor.RED + "Your nation is already at war with " + motherNation.getName());
+                return;
+            }
+        }
         wars.add(new War(motherNation, rebelNation));
+    }
+
+    public static ArrayList<War> getWars() {
+        return wars;
     }
 }

@@ -270,5 +270,14 @@ public class War {
 			}
 		}
 	}
-	
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof War) {
+            if (((War) obj).getNationsInWar().containsAll(getNationsInWar())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

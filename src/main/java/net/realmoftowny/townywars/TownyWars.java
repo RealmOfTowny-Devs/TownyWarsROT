@@ -1,12 +1,21 @@
 package net.realmoftowny.townywars;
 
+import com.palmergames.bukkit.towny.Towny;
+import com.palmergames.bukkit.towny.db.TownyDatabaseHandler;
+import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
+import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.Resident;
+import com.palmergames.bukkit.towny.object.TownyUniverse;
+import com.palmergames.bukkit.towny.regen.TownyRegenAPI;
 import me.drkmatr1984.MinevoltGems.GemsAPI;
 import net.realmoftowny.townywars.events.TownyWarsEvents;
 import net.realmoftowny.townywars.managers.ConfigManager;
+import net.realmoftowny.townywars.managers.WarManager;
 import net.realmoftowny.townywars.storage.MySQL;
 import net.realmoftowny.townywars.storage.YMLFile;
 import net.realmoftowny.townywars.tasks.FileSaveTask;
 import net.realmoftowny.townywars.utils.ChatUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -69,7 +78,38 @@ public class TownyWars extends JavaPlugin
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 	    if (command.getAliases().contains("tw")) {
 	        if (sender instanceof Player) {
+				if (args[0] == "start" && (args[1] != null || !args[1].equals(""))) {
+					boolean sendNotAuthorized = true;
+					try {
+						Resident r = TownyUniverse.getDataSource().getResident(sender.getName());
+						for (Nation n : TownyUniverse.getDataSource().getNations()) {
+							if (!n.isKing(r) && !n.getAssistants().contains(r)) continue;
+							else {
+								sendNotAuthorized = false;
+								Nation enemy = TownyUniverse.getDataSource().getNation(args[1]);
+								if (enemy == null) {
+								    sender.sendMessage(ChatColor.RED + "That is not a valid nation!");
+                                } else if (n.hasAlly(enemy)) {
+								    sender.sendMessage(ChatColor.RED + "You cannot declare war on an ally! Remove them as an ally first.");
+                                } else {
+                                    WarManager.createWar(n, enemy);
+                                    sender.sendMessage(ChatColor.DARK_PURPLE + "Declared war on nation " + n.getName() + "!");
 
+                                    // TODO configure war attack message
+                                    for (Player p : TownyUniverse.getOnlinePlayers(enemy)) {
+                                        p.sendMessage(ChatColor.DARK_PURPLE + "Nation " + n.getName() + " has declared war on your nation!");
+                                    }
+                                }
+								break;
+							}
+						}
+                        if (sendNotAuthorized) {
+                            sender.sendMessage(ChatColor.DARK_PURPLE + "You do not have the authorization to declare war!");
+                        }
+					} catch (NotRegisteredException e) {
+						e.printStackTrace();
+					}
+				}
             } else if (sender instanceof ConsoleCommandSender) {
 
             }
