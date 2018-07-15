@@ -92,7 +92,7 @@ public class TownyWars extends JavaPlugin
                                 } else if (n.hasAlly(enemy)) {
 								    sender.sendMessage(ChatColor.RED + "You cannot declare war on an ally! Remove them as an ally first.");
                                 } else {
-                                    WarManager.createWar(n, enemy);
+                                    WarManager.createWar(n, enemy, sender);
                                     sender.sendMessage(ChatColor.DARK_PURPLE + "Declared war on nation " + n.getName() + "!");
 
                                     // TODO configure war attack message
