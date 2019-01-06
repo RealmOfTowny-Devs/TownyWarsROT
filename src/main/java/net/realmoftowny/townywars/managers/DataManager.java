@@ -264,7 +264,8 @@ public class DataManager
         return true;
     }
     
-    public static UUID getUUIDfromPlayerName(final String playerName) {
+    @SuppressWarnings("deprecation")
+	public static UUID getUUIDfromPlayerName(final String playerName) {
         final OfflinePlayer op = Bukkit.getOfflinePlayer(playerName);
         if (op != null) {
             return op.getUniqueId();
